@@ -1,0 +1,48 @@
+
+<!-- 
+Name: Diya Parmar
+Student ID: 1168469 
+ -->
+ 
+<html>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"> </script>
+    <script src="upload.js" ></script> 
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <head>
+        <title> File Upload </title>
+
+    </head>
+      <body>
+          <h1> <center>The Chemists Lab</center></h1>
+          <hr>
+
+          <nav class="nav">
+            <a href="index.html">HOME</a>
+            <a href="addRemove.html">ADD/REMOVE</a>
+            <a href="upload.html">UPLOAD SDF</a>
+            <a href="display.html">SELECT AND DISPLAY</a>
+          </nav>
+
+          <form enctype="multipart/form-data" method="post">
+
+            <h2><center>Upload SDF File</center></h2>
+
+                    <p>
+                        <input type="file" id="sdfFile" name="sdfFile"/>
+                    </p>
+                    <center><label><b>Molecule Name:</b></label></center>
+                    <center><input type="text" name = "molName" id="molName"/></center>
+                    <br>
+                    <p>
+                        <!-- <input type="submit" value="Upload"/> -->
+                        <center><button type="submit" id = "uploadBtn" name = "uploadButton" >Upload</button></center>
+                    </p>
+
+                    <br>
+
+
+            
+          </form>
+
+        </body>
+  </html>

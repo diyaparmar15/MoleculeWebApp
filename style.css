@@ -1,0 +1,74 @@
+/* css style sheet */
+
+/* ID - for only one tag */
+label { font-style:italic; color:blue}
+
+button { 
+  font-family: 'Arial', Helvetica, sans-serif;
+  padding: 14px 30px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 22px;
+  margin: 4px 2px;
+  transition-duration: 0.2s;
+  cursor: pointer;
+  color:navy
+
+}
+
+button:hover {
+  background-color: black;
+  color: white;
+}
+
+/* #background {background-color: coral } */
+/* * {
+    background-image: url("chemistBack.jpeg");
+} */
+
+body {
+    background-color: rgb(197, 197, 197);
+    font-family: 'Arial', Helvetica, sans-serif;
+    text-align: center;
+  }
+  
+  .nav {
+    border: 3px solid navy;
+    border-width: 5px;
+    margin: 20px;
+    padding: 6px;
+    text-align: center;
+    background-color: lightblue;
+    font-family: 'Arial', Helvetica, sans-serif;
+  }
+    .nav a:hover {
+    background-color: blue;
+    color: rgb(195, 229, 240);
+  }
+  
+  .nav a.active {
+    background-color: navy;
+    opacity: 0.7;
+    color: white;
+  }
+
+  .nav a {
+    display: inline-block;
+    text-decoration: none;
+    float: center;
+    color: black;
+    text-align: center;
+    padding: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    border-bottom: 4px solid navy;
+  }
+  
+  /* .inputs {
+    font-family: 'Courier New', Courier, monospace;
+    color: black
+  } */
+
+  .colourFormat{
+    text-align: center;
+  }

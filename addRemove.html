@@ -1,0 +1,107 @@
+
+<!-- 
+Name: Diya Parmar
+Student ID: 1168469 
+ -->
+
+<!-- <html>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"> </script>
+    <script src="script.js" /></script>
+    <link rel="stylesheet" type="text/css" href="style.css" />
+  </head>
+  </head>
+  <body>
+    <label id="label">Enter name:</label>
+    <input type="text" id="name"/>
+    <button id="button"> Click me </button>
+  </body>
+</html> -->
+
+<html>
+    <script src="script.js"></script> 
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <head>
+        <title> File Upload </title>
+
+    </head>
+      <body>
+          <h1> <center>The Chemists Lab</center></h1>
+          <hr>
+
+          <nav class="nav">
+            <a href="index.html">HOME</a>
+            <a href="addRemove.html">ADD/REMOVE</a>
+            <a href="upload.html">UPLOAD SDF</a>
+            <a href="display.html">SELECT AND DISPLAY</a>
+          </nav>
+
+          <br>
+
+          <form action="addElement" id="addElement" method="post">
+          <!-- <form id="addElement"> -->
+
+          <center><h2><b>Add Element</b></h2></center>
+          <hr>
+          <br>
+
+          <!-- <inputs class="inputs"> -->
+          <center><label><b>Element Number:</b></label></center>
+          <center><input type="text" name="elementNumber" id="elementNumber"/></center>
+          <br><br>
+
+          <center><label><b>Element Code:</b></label></center>
+          <center><input type="text" name = "elementCode" id="elementCode"/></center>
+          <br><br>
+
+          <center><label><b>Element Name:</b></label></center>
+          <center><input type="text" name = "elementName" id="elementName"/></center>
+          <br><br>
+
+          <center><label><b>Radius:</b></label></center>
+          <center><input type="text" name = "radius" id="radius"/></center>
+          <br><br>
+
+          <div class="colourFormat">
+                <label><b>Colour 1:</b></label>
+                <input type="color" name = "color1" id="color1" value="#FF0000"/>
+                <!-- <br><br><br> -->
+
+                <label><b>Colour 2:</b></label>
+                <input type="color" name = "color2" id="color2" value="#00ff00"/>
+                <!-- <br><br><br> -->
+
+                <label><b>Colour 3:</b></label>
+                <input type="color" name = "color3" id="color3" value="#0000ff"/>
+                <br><br><br>
+              </div> 
+
+                <center><button type="submit" name = "add_element" >Add Element</button></center>
+                <br>
+          </form>
+
+          <form action="removeElement" id="removeElement" method="post">
+
+          <hr>
+          <center><h2><b>Remove Element</b></h2></center>
+          <br>
+
+          <center><label><b>Element Name:</b></label></center>
+          <center><input type="text" name = "remove_element_code" id="remove_element_code"/></center>
+          <br><br>
+
+
+          <center><button type="submit" name = "remove_element" >Remove Element</button></center>
+        
+          </form>
+
+          <!-- </inputs> -->
+
+          <!-- <label><b>Add Element</b></label>
+          <a href="">Add Element</a> -->
+          
+
+
+      </body>
+
+</html>
