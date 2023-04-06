@@ -75,7 +75,7 @@ class Bond():
     # for debugging. Make this return a string that displays the relevant information of the wrapped
     # bond.
     def __str__(self):
-                return 'a1=' + str(self.a1) + ' a2=' + str(self.a2) + ' x1=' +str(self.x1) +' x2='+str(self.x2)+' y1='+str(self.y1)+' y2='+str(self.y2)+' z='+str(self.z)+' len='+str(self.len)+' dx='+str(self.dx)+' dy='+str(self.dy)
+        return ' a1=' + str(self.bond.a1) + ' a2=' + str(self.bond.a2) + ' x1=' +str(self.bond.x1) + ' x2='+str(self.bond.x2)+ ' y1='+str(self.bond.y1)+' y2='+str(self.bond.y2)+' z='+str(self.bond.z)+' len='+str(self.bond.len)+' dx='+str(self.bond.dx)+' dy='+str(self.bond.dy)
 
     # The bond svg method calculates the x and y position cordinates for the bond to be displayed
     # the bonds are created in rectangular shapes which are known to be called polygons 
@@ -223,40 +223,4 @@ class Molecule(molecule.molecule):
              # append the x, y, z values for each bond
             self.append_bond(int(items[0]) - 1, int(items[1]) - 1, int(items[2]))
 
-    
-    
 
-
-
-
-
-        
-
-            
-
-
-            
-
-
-
-
-
-        
-
-    
-
-
-
-
-        
-
-
-
-
-
-
-
-
-
-
-    

@@ -3,6 +3,7 @@
 # Student ID: 1168469
 # */
 
+#imports
 
 import sys 
 import MolDisplay 
@@ -12,15 +13,25 @@ import urllib
 import cgi
 import io
 import json
+import molecule
 
 # Initialize the database
 db = Database(reset=True)
 db.create_tables()
+# db['Elements'] = (1, 'H', 'Hydrogen', 'FFFFFF', '050505', '020202', 25)
+# db['Elements'] = (6, 'C', 'Carbon', '808080', '010101', '000000', 40)
+# db['Elements'] = (7, 'N', 'Nitrogen', '0000FF', '000005', '000002', 40)
+# db['Elements'] = (8, 'O', 'Oxygen', 'FF0000', '050000', '020000', 40)
 
 # list of files that we allow the web-server to serve to clients
 # (we don't want to serve any file that the client requests)
 public_files = ['/index.html', '/addRemove.html','/upload.html', '/select.html', '/display.html','/style.css', '/script.js', '/display.js']
 class MyHandler(BaseHTTPRequestHandler):
+
+    currDisplayMol = ""
+    xRot = 0
+    yRot = 0
+    zRot = 0
 
     # do_GET method t presents a web-form when the path, “ /” is requested
     # and generates a 404 error otherwise
@@ -39,6 +50,7 @@ class MyHandler(BaseHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(bytes(page, "utf-8"))
 
+        #path that gets the molecules from the uploaded ones
         elif (self.path == '/getMolecules'):
             # get molecules data
             molecules = db.getMolecules()
@@ -55,6 +67,49 @@ class MyHandler(BaseHTTPRequestHandler):
             molecules_json = json.dumps(molecules)
 
             self.wfile.write(bytes(molecules_json, "utf-8"))
+
+        #path for generating the molecule picture
+        elif(self.path == "/moleculeFormation"):
+
+            self.send_response( 200 ) 
+            self.send_header("Content-type", "image/svg+xml") 
+            self.end_headers() 
+            length = int(self.headers.get('Content-Length', 0)) 
+
+            #generate svg
+            MolDisplay.radius = db.radius()
+            MolDisplay.element_name = db.element_name()
+            MolDisplay.header += db.radial_gradients()
+
+            #load the database
+            name = MyHandler.currDisplayMol
+            mol = db.load_mol(name)
+            print(mol)
+            
+            #checking which side is being rotated, once identified,
+            #rotate that molecule on its respective axis
+            #xRotation
+            if (MyHandler.xRot != 0):
+                print(MyHandler.xRot)
+                mx = molecule.mx_wrapper(int(MyHandler.xRot), 0, 0)
+                mol.xform( mx.xform_matrix )
+                print(mol)
+
+            #yRotation
+            if (MyHandler.yRot != 0):
+                mx = molecule.mx_wrapper(0, int(MyHandler.yRot), 0)
+                mol.xform( mx.xform_matrix )
+                print(mol)
+
+            #zRotation
+            if (MyHandler.zRot != 0):
+                mx = molecule.mx_wrapper(0, 0, int(MyHandler.zRot))
+                mol.xform( mx.xform_matrix )
+                print(mol)
+
+            #sort the molecule and write it out
+            mol.sort()
+            self.wfile.write( bytes( mol.svg(), "utf-8" ) )
 
         # 404 error page
         else:
@@ -100,6 +155,7 @@ class MyHandler(BaseHTTPRequestHandler):
             # self.end_headers()
             # self.wfile.write(bytes(message, "utf-8"))
 
+        #path to remove an element in the databse
         elif self.path == '/removeElement':
 
             # this is specific to 'multipart/form-data' encoding used by POST
@@ -127,6 +183,7 @@ class MyHandler(BaseHTTPRequestHandler):
             # self.end_headers()
             # self.wfile.write(bytes(message, "utf-8"))
 
+        #path to upload a file 
         elif self.path == '/upload.html':
             
             form = cgi.FieldStorage(
@@ -141,13 +198,13 @@ class MyHandler(BaseHTTPRequestHandler):
             print(moleculeName)
             print(SDFfile)
 
-            # Validate SDF extention
+            #SDF extention validation
             contentDispo = form['sdfFile'].headers['Content-Disposition']
             filename = cgi.parse_header(contentDispo)[1]['filename']
             ext = filename.split('.')[-1]
             
             if ext != 'sdf':
-                # Handle invalid SDF file error
+                #if the file entered is not a .sdf
                 response_body = "Error! SDF file is Invalid"
                 response_length = len(response_body.encode('utf-8'))
                 self.send_response(400)
@@ -170,6 +227,7 @@ class MyHandler(BaseHTTPRequestHandler):
             self.path = "/upload.html"
             self.do_GET()
 
+        # path for rotating the viewing the molecule
         elif self.path == "/viewMol":
 
             content_length = int(self.headers['Content-Length'])
@@ -179,17 +237,52 @@ class MyHandler(BaseHTTPRequestHandler):
 
             name = str(postvars['moleculeName'][0])
 
-            # save molecule name globally
-            MyHandler.molName = name
-            print(name)
+            #global mol name 
+            MyHandler.currDisplayMol = name
+            
+            mol = MolDisplay.Molecule();
+            mol = db.load_mol( name );
+            mol.sort();
 
-            message = "molecule was added";
+            MolDisplay.radius = db.radius();
+            MolDisplay.element_name = db.element_name();
+            MolDisplay.header += db.radial_gradients();
+
+            svg = mol.svg();
+
+            # message = "molecule was added";
             # response_length = len(response_body.encode('utf-8'))
             self.send_response(200);
             self.send_header("Content-type", "text/plain");
-            self.send_header("Content-length", len(message));
+            self.send_header("Content-length", len(svg));
             self.end_headers();
-            self.wfile.write(message.encode('utf-8'))
+            self.wfile.write(svg.encode('utf-8'))
+
+        #path for rotating the molecules
+        elif (self.path == "/rotations"):
+
+            content_length = int(self.headers['Content-Length'])
+            body = self.rfile.read(content_length)
+            
+            postvars = urllib.parse.parse_qs(body.decode('utf-8'))
+       
+            side = postvars['side'][0]
+            #check the side being rotated followed by rotating
+            if(side == 'sideY'):
+                MyHandler.yRot = (MyHandler.yRot + 10) % 360
+            elif(side == 'sideX'):
+                MyHandler.xRot = (MyHandler.xRot + 10) % 360
+            elif(side == 'sideZ'):
+                MyHandler.zRot = (MyHandler.zRot + 10) % 360
+
+    
+            response_body = "Molecule Rotation Success"
+            response_length = len(response_body.encode('utf-8'))
+            self.send_response(200)
+            self.send_header("Content-type", "text/plain")
+            self.send_header("Content-length", response_length)
+            self.end_headers()
+            self.wfile.write(response_body.encode('utf-8'))
 
          # 404 error page
         else:

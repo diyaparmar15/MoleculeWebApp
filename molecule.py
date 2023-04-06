@@ -144,14 +144,14 @@ class bond(_object):
     __swig_getmethods__["a2"] = _molecule.bond_a2_get
     if _newclass:
         a2 = _swig_property(_molecule.bond_a2_get, _molecule.bond_a2_set)
-    __swig_setmethods__["epairs"] = _molecule.bond_epairs_set
-    __swig_getmethods__["epairs"] = _molecule.bond_epairs_get
-    if _newclass:
-        epairs = _swig_property(_molecule.bond_epairs_get, _molecule.bond_epairs_set)
     __swig_setmethods__["atoms"] = _molecule.bond_atoms_set
     __swig_getmethods__["atoms"] = _molecule.bond_atoms_get
     if _newclass:
         atoms = _swig_property(_molecule.bond_atoms_get, _molecule.bond_atoms_set)
+    __swig_setmethods__["epairs"] = _molecule.bond_epairs_set
+    __swig_getmethods__["epairs"] = _molecule.bond_epairs_get
+    if _newclass:
+        epairs = _swig_property(_molecule.bond_epairs_get, _molecule.bond_epairs_set)
     __swig_setmethods__["x1"] = _molecule.bond_x1_set
     __swig_getmethods__["x1"] = _molecule.bond_x1_get
     if _newclass:
@@ -258,8 +258,33 @@ class molecule(_object):
 
     def sort(self):
         return _molecule.molecule_sort(self)
+
+    def xform(self, xform_matrix):
+        return _molecule.molecule_xform(self, xform_matrix)
 molecule_swigregister = _molecule.molecule_swigregister
 molecule_swigregister(molecule)
+
+class mx_wrapper(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, mx_wrapper, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, mx_wrapper, name)
+    __repr__ = _swig_repr
+    __swig_setmethods__["xform_matrix"] = _molecule.mx_wrapper_xform_matrix_set
+    __swig_getmethods__["xform_matrix"] = _molecule.mx_wrapper_xform_matrix_get
+    if _newclass:
+        xform_matrix = _swig_property(_molecule.mx_wrapper_xform_matrix_get, _molecule.mx_wrapper_xform_matrix_set)
+
+    def __init__(self, xrot, yrot, zrot):
+        this = _molecule.new_mx_wrapper(xrot, yrot, zrot)
+        try:
+            self.this.append(this)
+        except __builtin__.Exception:
+            self.this = this
+    __swig_destroy__ = _molecule.delete_mx_wrapper
+    __del__ = lambda self: None
+mx_wrapper_swigregister = _molecule.mx_wrapper_swigregister
+mx_wrapper_swigregister(mx_wrapper)
 
 
 def atomset(atom, element, x, y, z):
@@ -321,14 +346,60 @@ zrotation = _molecule.zrotation
 def mol_xform(molecule, matrix):
     return _molecule.mol_xform(molecule, matrix)
 mol_xform = _molecule.mol_xform
+class rotations(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, rotations, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, rotations, name)
+    __repr__ = _swig_repr
+    __swig_setmethods__["x"] = _molecule.rotations_x_set
+    __swig_getmethods__["x"] = _molecule.rotations_x_get
+    if _newclass:
+        x = _swig_property(_molecule.rotations_x_get, _molecule.rotations_x_set)
+    __swig_setmethods__["y"] = _molecule.rotations_y_set
+    __swig_getmethods__["y"] = _molecule.rotations_y_get
+    if _newclass:
+        y = _swig_property(_molecule.rotations_y_get, _molecule.rotations_y_set)
+    __swig_setmethods__["z"] = _molecule.rotations_z_set
+    __swig_getmethods__["z"] = _molecule.rotations_z_get
+    if _newclass:
+        z = _swig_property(_molecule.rotations_z_get, _molecule.rotations_z_set)
 
-def atom_comp(atom1, atom2):
-    return _molecule.atom_comp(atom1, atom2)
-atom_comp = _molecule.atom_comp
+    def __init__(self):
+        this = _molecule.new_rotations()
+        try:
+            self.this.append(this)
+        except __builtin__.Exception:
+            self.this = this
+    __swig_destroy__ = _molecule.delete_rotations
+    __del__ = lambda self: None
+rotations_swigregister = _molecule.rotations_swigregister
+rotations_swigregister(rotations)
 
-def bond_comp(bond1, bond2):
-    return _molecule.bond_comp(bond1, bond2)
-bond_comp = _molecule.bond_comp
+
+def aQuicksort(arr, low, high):
+    return _molecule.aQuicksort(arr, low, high)
+aQuicksort = _molecule.aQuicksort
+
+def aPartition(arr, low, high):
+    return _molecule.aPartition(arr, low, high)
+aPartition = _molecule.aPartition
+
+def aSwap(arr, first, second):
+    return _molecule.aSwap(arr, first, second)
+aSwap = _molecule.aSwap
+
+def bQuicksort(arr, low, high):
+    return _molecule.bQuicksort(arr, low, high)
+bQuicksort = _molecule.bQuicksort
+
+def bPartition(arr, low, high):
+    return _molecule.bPartition(arr, low, high)
+bPartition = _molecule.bPartition
+
+def bSwap(arr, first, second):
+    return _molecule.bSwap(arr, first, second)
+bSwap = _molecule.bSwap
 # This file is compatible with both classic and new-style classes.
 
 

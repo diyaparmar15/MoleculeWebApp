@@ -32,9 +32,6 @@
 //   );
 
 
-
-
-
 $(document).ready(
     function(){
         $("#add_element").click(function () {

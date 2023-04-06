@@ -93,6 +93,7 @@ class Database:
         #inserts the needed number of question marks in the string
         query = f"INSERT INTO {table} VAlUES {stringTemp}"
 
+
         #pass the values to the query and commit changed to the database
         self.conn.execute(query, values)
         self.conn.commit()
@@ -183,13 +184,25 @@ class Database:
         self.conn.execute(query, (name,))
         self.conn.commit()
 
-        #iterate through the atoms in the parsed molecule and add each atom to the database
+        # #iterate through the atoms in the parsed molecule and add each atom to the database
+        # for i in range(molecule.atom_no):
+        #     self.add_atom(name, Atom(molecule.get_atom(i)))
+
+        # insert default values for each element into the Elements table if they do not already exist
         for i in range(molecule.atom_no):
-            self.add_atom(name, Atom(molecule.get_atom(i)))
+            atom = Atom(molecule.get_atom(i))
+            element_code = atom.atom.element
+            query = f"INSERT INTO Elements (ELEMENT_NO, ELEMENT_CODE, ELEMENT_NAME, COLOUR1, COLOUR2, COLOUR3, RADIUS) \
+                    SELECT 1, '{element_code}', '{element_code}', '0D98BA', 'F03C3C', '18A558', 25 \
+                    WHERE NOT EXISTS (SELECT 1 FROM Elements WHERE ELEMENT_CODE = '{element_code}')"
+
+            self.conn.execute(query)
+            self.add_atom(name, atom)
 
         #iterate through the bonds in the parsed molecule and add each bond to the database
         for j in range(molecule.bond_no):
             self.add_bond(name, Bond(molecule.get_bond(j)))
+
 
 
     # This method returns a MolDisplay.Molecule object initialized based on the molecule named
@@ -211,7 +224,7 @@ class Database:
         atoms = c.fetchall()
 
         #object of Molecule
-        mol = Molecule()
+        mol = MolDisplay.Molecule()
 
         #adds the atoms in to the molecule object
         for atom in atoms:
